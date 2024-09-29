@@ -7,7 +7,8 @@ import (
 )
 
 type ApiConfig struct {
-	DatabaseDSN string
+	DatabaseDSN  string
+	JwtSecretKey string
 }
 
 var cfg *ApiConfig
@@ -17,8 +18,9 @@ func LoadApiConfig() (*ApiConfig, error) {
 	if err != nil {
 		return nil, err
 	}
-	cfg := &ApiConfig{
-		DatabaseDSN: os.Getenv("DATABASE_DSN"),
+	cfg = &ApiConfig{
+		DatabaseDSN:  os.Getenv("DATABASE_DSN"),
+		JwtSecretKey: os.Getenv("JWT_SECRET_KEY"),
 	}
 	return cfg, nil
 }

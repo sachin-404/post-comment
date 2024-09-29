@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/sachin-404/post-comment/cmd/api/handlers"
 	"github.com/sachin-404/post-comment/common/database"
 	"github.com/sachin-404/post-comment/config"
 	"log"
@@ -32,8 +33,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// Setup routes
-	//handlers.SetupRoutes(e)
+	handlers.SetupRoutes(e)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
