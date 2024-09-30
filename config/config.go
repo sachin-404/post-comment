@@ -14,9 +14,11 @@ type ApiConfig struct {
 var cfg *ApiConfig
 
 func LoadApiConfig() (*ApiConfig, error) {
-	err := godotenv.Load(".env")
-	if err != nil {
-		return nil, err
+	if os.Getenv("ENVIRONMENT") == "" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			return nil, err
+		}
 	}
 	cfg = &ApiConfig{
 		DatabaseDSN:  os.Getenv("DATABASE_DSN"),
