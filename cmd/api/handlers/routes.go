@@ -4,10 +4,12 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/sachin-404/post-comment/cmd/api/handlers/comment"
 	"github.com/sachin-404/post-comment/cmd/api/handlers/post"
 	"github.com/sachin-404/post-comment/cmd/api/handlers/user"
 	"github.com/sachin-404/post-comment/config"
 	"github.com/sachin-404/post-comment/internal/repo"
+	"github.com/sachin-404/post-comment/internal/service/comment_service"
 	"github.com/sachin-404/post-comment/internal/service/post_service"
 	"github.com/sachin-404/post-comment/internal/service/user_service"
 	"net/http"
@@ -21,6 +23,10 @@ func SetupRoutes(e *echo.Echo) {
 	postRepo := repo.NewPostRepo()
 	postService := post_service.NewPostService(postRepo)
 	postHandler := post.NewPostHandler(postService)
+
+	commentRepo := repo.NewCommentRepo()
+	commentService := comment_service.NewCommentService(commentRepo, postRepo)
+	commentHandler := comment.NewCommentHandler(commentService)
 
 	api := e.Group("/api")
 
@@ -50,4 +56,10 @@ func SetupRoutes(e *echo.Echo) {
 	postGroup.POST("", postHandler.CreatePost)
 	postGroup.GET("/:id", postHandler.GetPost)
 	postGroup.DELETE("/:id", postHandler.DeletePost)
+
+	// Comment routes
+	commentGroup := api.Group("/comment", jwtMiddleware)
+	commentGroup.POST("", commentHandler.CreateComment)
+	commentGroup.GET("/:id", commentHandler.GetComment)
+	commentGroup.DELETE("/:id", commentHandler.DeleteComment)
 }

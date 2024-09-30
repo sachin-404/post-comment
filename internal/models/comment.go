@@ -9,5 +9,13 @@ type Comment struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	User      User      `json:"user" gorm:"foreignKey:UserID"`
-	Post      Post      `json:"post" gorm:"foreignKey:PostID"`
+}
+
+func NewComment(postID, userID int, content string) *Comment {
+	return &Comment{
+		PostID:    postID,
+		UserID:    userID,
+		Content:   content,
+		CreatedAt: time.Now(),
+	}
 }
