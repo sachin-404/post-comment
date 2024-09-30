@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/sachin-404/post-comment/common/auth"
 	"github.com/sachin-404/post-comment/internal/service/user_service"
 	"net/http"
 
@@ -39,7 +40,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid email or password"})
 	}
 
-	token, err := user_service.GenerateToken(user.Name, user.ID)
+	token, err := auth.GenerateToken(user.Name, user.ID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to generate token"})
 	}

@@ -7,6 +7,7 @@ import (
 	"github.com/sachin-404/post-comment/cmd/api/handlers/comment"
 	"github.com/sachin-404/post-comment/cmd/api/handlers/post"
 	"github.com/sachin-404/post-comment/cmd/api/handlers/user"
+	"github.com/sachin-404/post-comment/common/auth"
 	"github.com/sachin-404/post-comment/config"
 	"github.com/sachin-404/post-comment/internal/repo"
 	"github.com/sachin-404/post-comment/internal/service/comment_service"
@@ -47,7 +48,7 @@ func SetupRoutes(e *echo.Echo) {
 		SigningKey:  []byte(config.GetApiConfig().JwtSecretKey),
 		TokenLookup: "header:Authorization",
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
-			return new(user_service.JWTClaims)
+			return new(auth.JWTClaims)
 		},
 	})
 
